@@ -17,5 +17,3 @@ pub fn show_prompt() {
     print!("{}@{} ({}) {} ", user, shell, path_display, arrow);
     io::stdout().flush().unwrap();
 }
-
-
