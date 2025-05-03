@@ -1,0 +1,7 @@
+[package]
+name = "rosh"
+version = "0.1.0"
+
+[dependencies]
+colored = "3.0.0"
+owo-colors = "4.2.0"

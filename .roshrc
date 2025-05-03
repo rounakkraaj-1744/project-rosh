@@ -1,0 +1,7 @@
+[aliases]
+ll = "ls -al"
+gs = "git status"
+
+[theme]
+prompt_color = "cyan"
+show_git_status = true
