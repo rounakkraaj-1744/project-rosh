@@ -1,35 +1,32 @@
-use std::io::{self};
 use std::process::exit;
+use reedline::{Reedline, Signal};
 
-use crate::prompt;
-use crate::executor;
-
-fn get_input() -> Option<String> {
-    let mut input = String::new();
-    if io::stdin().read_line(&mut input).is_err() {
-        eprintln!("Failed to read line");
-        return None;
-    }
-
-    let input = input.trim();
-    if input.is_empty() {
-        return None;
-    }
-
-    Some(input.to_string())
-}
+use crate::prompt::{get_prompt_string, CustomPrompt};
+use crate::executor::execute_command;
 
 pub fn run_shell() {
-    loop {
-        prompt::show_prompt();
+    let mut line_editor = Reedline::create();
 
-        match get_input() {
-            Some(ref input) if input == "exit" => {
-                exit(0);
+    loop {
+        let prompt = CustomPrompt {
+            prompt: get_prompt_string(),
+        };
+        
+        match line_editor.read_line(&prompt) {
+            Ok(Signal::Success(input)) => {
+                if input.trim() == "exit" {
+                    exit(0);
+                }
+                execute_command(&input);
             }
-            Some(ref input) if input.is_empty() => continue,
-            Some(input) => executor::execute_command(&input),
-            None => continue,
+            Ok(Signal::CtrlD) | Ok(Signal::CtrlC) => {
+                println!();
+                exit(0);
+            },
+            Err(err) => {
+                eprintln!("Error: {}", err);
+                break;
+            }
         }
     }
 }

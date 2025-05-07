@@ -5,6 +5,7 @@ mod prompt;
 mod executor;
 mod customls;
 extern crate colored;
+extern crate reedline;
 
 fn main (){
     loop{
