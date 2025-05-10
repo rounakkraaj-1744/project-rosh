@@ -4,6 +4,7 @@ mod shell;
 mod prompt;
 mod executor;
 mod customls;
+mod completer;
 extern crate colored;
 extern crate reedline;
 
